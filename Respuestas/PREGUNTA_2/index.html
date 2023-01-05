@@ -32,6 +32,7 @@
       <div class="section" id="enunciado" style="padding-left:25%;margin-top: 5%;" >
       <button style="align-self: center;" type="button" onclick="CargarDatos()">Obtener Datos</button>
       </div>
+      <div id="info"></div>
       <div class="section" id="resolucion" style="margin-top: 5%;">
       </div>
       <div class="section" style="margin-top: 5%;">
@@ -41,23 +42,33 @@
     </div>
 
 <script>
-  xhttp = new XMLHttpRequest(); //Creacion del objeto XMLHttpRequest
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML =
-      this.responseText;
-    }
-  };
-  
-  xhttp.open("GET", "ejemplo.xml", true);//Enviar la solicitud para obtener el archivo .txt
-  xhttp.send();  // Solo funciona con el protocolo http (on-line)
-  
-  
-  
+ 
   //Funcion para recuperar los datos del archivo .txt
   function CargarDatos() {
-  
-    
+    var result=document.getElementById("info");
+    var ar=[];
+
+    if(window.XMLHttpRequest){
+      xmlhttp=new XMLHttpRequest();
+    }else {
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function(){
+      if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+        if (xmlhttp.responseXML !==null){
+          ar[0]=xmlhttp.responseXML.getElementByTagName("id").item(0);
+          ar[1]=xmlhttp.responseXML.getElementByTagName("nombre").item(0);
+          ar[2]=xmlhttp.responseXML.getElementByTagName("comida").item(0);
+
+          result.innerHTML = ar[0].firstChild.nodeValue+" "+
+                             ar[1].firstChild.nodeValue+"come"+
+                             ar[2].firstChild.nodeValue+" "+
+        }
+
+      }
+    }
+  xmlhttp.open("GET","ejemplo.xml",true);
+  xmlhttp.send();
     
   }
   
